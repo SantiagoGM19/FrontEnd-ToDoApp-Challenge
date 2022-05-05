@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import { Store } from './StoreProvider'
+import ToDoList from '../styles/ToDoList.css'
 
 const ListOfToDo = () => {
 
@@ -23,10 +24,10 @@ const ListOfToDo = () => {
                                 <td>{task.id}</td>
                                 <td>{task.title}</td>
                                 <td>
-                                    <button type="button" className="btn btn-primary" onClick={() => onEdit(task)}>Edit</button>
+                                    <button type="button" className="btn btn-primary btn-task" onClick={() => onEdit(task)}>Edit</button>
                                 </td>
                                 <td>
-                                    <button type="button" className="btn btn-danger" onClick={() => onDelete(task)}>Delete</button>
+                                    <button type="button" className="btn btn-danger btn-task" onClick={() => onDelete(task)}>Delete</button>
                                 </td>
                             </tr>
                         })

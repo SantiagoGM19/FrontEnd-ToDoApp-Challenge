@@ -1,0 +1,20 @@
+.category{
+    display: flex;
+}
+
+.name-category{
+    margin-top: 10px;
+    margin-right: 100px;
+}
+
+.category-block{
+    border: solid 1px;
+    margin: 5%;
+}
+
+.btn-tuning{
+    width: 150px;
+    height: 40px;
+    margin-top: 10px;
+    margin-left: 20px;
+}

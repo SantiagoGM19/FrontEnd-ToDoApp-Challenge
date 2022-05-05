@@ -1,7 +1,7 @@
 .input-category {
     margin-left: 20px;
     margin-top: 20px;
-    width: 30%;
+    width: 600px;
     display: flex;
 }
 
@@ -11,6 +11,8 @@
 }
 
 .btn-category{
+    width: 150px;
     margin-left: 20px;
-    width: 50%;
+    margin-top: 10px;
+    height: 40px;
 }

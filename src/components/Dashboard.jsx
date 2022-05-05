@@ -32,7 +32,7 @@ const Dashboard = () => {
         <div className='dashboard'>
             <form ref={inputRef}>
                 <div className="form-floating mb-3 input-category" >
-                    <input onChange={addingCategory} type="email" className="form-control" id="floatingInput" placeholder='List of TO-DO'/>
+                    <input onChange={addingCategory} type="text" className="form-control" id="floatingInput" placeholder='List of TO-DO'/>
                     <label for="floatingInput">List of TO-DO</label>
                     <button type="button" className="btn btn-success btn-category" onClick={onAddCategory}>New list</button>
                 </div>

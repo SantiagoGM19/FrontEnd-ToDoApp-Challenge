@@ -15,11 +15,6 @@ const initialState = {
                 done: false
             },
             listOfTasks: [
-                {
-                    id: '0',
-                    title: 'Title by default',
-                    done: true
-                }
             ]
         }
     ]
