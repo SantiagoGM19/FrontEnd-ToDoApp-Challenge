@@ -1,4 +1,4 @@
-import React, { useContext, useState, useRef } from 'react'
+import React, { useContext, useState, useRef, useEffect } from 'react'
 import { Store } from './StoreProvider'
 import ListOfToDo from './ListOfToDo'
 import categories from '../styles/categories.css'
@@ -69,7 +69,7 @@ const ListOfCategories = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {category.listOfTasks.map(task => {
+                                {category.listOfTasks?.map(task => {
                                     return <ListOfToDo key={category.id} task={task} />
                                 })}
                             </tbody>

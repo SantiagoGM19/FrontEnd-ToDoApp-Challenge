@@ -14,8 +14,7 @@ const initialState = {
                 title: '',
                 done: false
             },
-            listOfTasks: [
-            ]
+            listOfTasks: []
         }
     ]
 }

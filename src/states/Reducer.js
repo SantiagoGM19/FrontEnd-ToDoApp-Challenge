@@ -1,11 +1,16 @@
+import ListOfCategories from "../components/ListOfCategories"
+
 function reducer(state, action) {
     switch(action.type){
+        case 'get-categories':
+            const listOfCategories = [...action.payload]
+            const newStateListOfCategories = listOfCategories.map(category => {
+                return {id: category.id, name: category.name, listOfTasks: [...category.tasks]}
+            })
+            const newState = {...state, listOfCategories:newStateListOfCategories}
+            return newState
         case 'add-category':
-            const newCategory = {
-                id: Math.floor(Math.random()*100),
-                name: action.payload.category,
-                listOfTasks:[]
-            }
+            const newCategory = action.payload
             const newListOfCategories = [...state.listOfCategories, newCategory]
             const newSateOfCategories = {...state, listOfCategories: newListOfCategories}
             return newSateOfCategories
@@ -21,7 +26,6 @@ function reducer(state, action) {
             }
             const thisCategory = state.listOfCategories.map(category => {
                 if(category.id === action.payload.category.id){
-                    console.log("Im in!!");
                     return category
                 }
             }).filter(category => category !== undefined)

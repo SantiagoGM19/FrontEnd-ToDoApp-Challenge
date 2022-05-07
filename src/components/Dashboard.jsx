@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import dashboard from '../styles/dashboard.css'
 import ListOfCategories from './ListOfCategories'
 import { Store } from './StoreProvider'
@@ -11,14 +11,41 @@ const Dashboard = () => {
 
     const [category, setCategory] = useState('')
 
-    const onAddCategory = (event) => {
+    useEffect(()=>{
+        let listOfCategories = fetchAllCategories().then(
+            categories => {
+                let action = {
+                    type:"get-categories",
+                    payload: categories
+                }
+                dispatch(action)
+            }
+        )
+    }, [])
+
+    const fetchAllCategories = async () => {
+        let response = await fetch(`http://localhost:8081/api/get/categories`)
+        let data = response.json()
+        return data
+    }
+
+    const onAddCategory = async (event) => {
         event.preventDefault()
         if (category) {
+            const categoryCreated = {
+                'name':category
+            }
+            let categorySavedPromise = await fetch(`http://localhost:8081/api/create/category`,{
+                method:'POST',
+                headers:{
+                    'Content-type':'application/json'
+                },
+                body:JSON.stringify(categoryCreated)
+            })
+            let categorySaved = await categorySavedPromise.json()
             dispatch({
                 type: 'add-category',
-                payload: {
-                    category
-                }
+                payload: categorySaved
             })
             inputRef.current.reset()
         }
