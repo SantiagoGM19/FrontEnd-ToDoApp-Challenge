@@ -44,16 +44,7 @@ const ListOfToDo = ({ task, categoryId }) => {
             title: title
         }
 
-        let taskUpdatePromise = await fetch(`http://localhost:8081/api/update/task`,
-            {
-                method: 'PUT',
-                headers: {
-                    'Content-type': 'application/json'
-                },
-                body: JSON.stringify(taskWitInfoUpdated)
-            })
-
-        let taskUpdated = await taskUpdatePromise.json()
+        let taskUpdated = await (await editFecth(taskWitInfoUpdated)).json()
 
         dispatch({
             type: 'update-task',
@@ -61,6 +52,37 @@ const ListOfToDo = ({ task, categoryId }) => {
             idCategory: categoryId
         })
     }
+
+    const editFecth = async (taskWitInfoUpdated) => {
+        let taskUpdatePromise = await fetch(`http://localhost:8081/api/update/task`,
+        {
+            method: 'PUT',
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify(taskWitInfoUpdated)
+        })
+        return taskUpdatePromise
+    }
+
+    const onCheckbox = async (e) => {
+        const checked = e.currentTarget.checked
+
+        let taskWithCheckedboxInformation = {
+            ...task,
+            done: checked
+        }
+
+        let taskUpdated = await (await editFecth(taskWithCheckedboxInformation)).json()
+
+        dispatch({
+            type: 'update-task',
+            payload: taskUpdated,
+            idCategory: categoryId
+        })
+    }
+
+
     const addingTitlte = (e) => {
         setTitle(e.target.value)
     }
@@ -71,7 +93,8 @@ const ListOfToDo = ({ task, categoryId }) => {
         <>
             <tr key={task}>
                 <td>{task.id}</td>
-                <td>{task.title}</td>
+                <td style={task.done ? { textDecoration: 'line-through' } : {}}>{task.title}</td>
+                <td>checked?<br /><input type="checkbox" onChange={onCheckbox} checked={task.done}/></td>
                 <td>
                     <button type="button" className="btn btn-primary btn-task" onClick={(event) => onEdit(event, task)}>Edit</button>
                 </td>

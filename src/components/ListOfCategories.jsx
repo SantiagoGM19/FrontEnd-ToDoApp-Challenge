@@ -62,9 +62,6 @@ const ListOfCategories = () => {
         setTask(e.target.value)
     }
 
-    state.listOfCategories.map(category => console.log(category))
-
-
     return (
         <div>
             {state.listOfCategories?.map(category => {
@@ -89,6 +86,7 @@ const ListOfCategories = () => {
                                 <tr>
                                     <td>ID</td>
                                     <td>Task</td>
+                                    <td></td>
                                     <td></td>
                                     <td></td>
                                 </tr>
