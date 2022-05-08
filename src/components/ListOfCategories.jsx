@@ -11,22 +11,46 @@ const ListOfCategories = () => {
 
     const inputRef = useRef(null)
 
-    const onDelete = (category) => {
-        dispatch({
-            type: 'remove-category',
-            payload: category
-        })
+    const onDelete = async (category) => {
+        let response = await fetch(`http://localhost:8081/api/delete/category/${category.id}`,
+            {
+                method: 'DELETE'
+            })
+        if (response.status === 200) {
+            dispatch({
+                type: 'remove-category',
+                payload: category
+            })
+        }
     }
 
-    const onAddTask = (event, category) => {
+    const onAddTask = async (event, category) => {
 
         event.preventDefault()
 
         if (task) {
+
+            const taskCreated = {
+                title: task,
+                done: false,
+                fkCategory: category.id
+            }
+
+            let taskSavedPromise = await fetch(`http://localhost:8081/api/create/task`,
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-type': 'application/json'
+                    },
+                    body: JSON.stringify(taskCreated)
+                })
+            
+            let taskSaved = await taskSavedPromise.json()
+
             dispatch({
                 type: 'add-task',
                 payload: {
-                    task,
+                    taskSaved,
                     category
                 }
             })
@@ -70,7 +94,7 @@ const ListOfCategories = () => {
                             </thead>
                             <tbody>
                                 {category.listOfTasks?.map(task => {
-                                    return <ListOfToDo key={category.id} task={task} />
+                                    return <ListOfToDo key={category.id} task={task} categoryId={category.id} />
                                 })}
                             </tbody>
                         </table>
