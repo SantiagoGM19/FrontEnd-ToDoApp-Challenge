@@ -23,55 +23,33 @@ function reducer(state, action) {
 
         case 'add-task':
             const newTask = action.payload.taskSaved
-            const thisCategory = state.listOfCategories.map(category => {
+            const newListOfCategoriesWithNewTask = state.listOfCategories.map(category => {
                 if (category.id === action.payload.category.id) {
-                    return category
+                    const listOfTaskOfThisCategory = [...category.listOfTasks]
+                    const newListOfTasks = [...listOfTaskOfThisCategory, newTask]
+                    const newStateOfCategory = {...category, listOfTasks: newListOfTasks}
+                    return newStateOfCategory
                 }
-            }).filter(category => category !== undefined)
-
-            const listOfTaskOfThisCategory = [...thisCategory[0].listOfTasks]
-            const newListOfTask = [...listOfTaskOfThisCategory, newTask]
-            const newStateOfCategory = { ...thisCategory[0], listOfTasks: newListOfTask }
-            const newListCategoriesFiltered = state.listOfCategories.map(category => {
-                if (category.id !== newStateOfCategory.id) {
-                    return category
-                }
-            }).filter(category => category !== undefined)
-
-            const newListOfCategoriesWithNewTask = [...newListCategoriesFiltered, newStateOfCategory]
+                return category
+            })
             const newStateOfCategoriesWithNewCategoryTask = { ...state, listOfCategories: newListOfCategoriesWithNewTask }
-            console.log(newStateOfCategoriesWithNewCategoryTask);
             return newStateOfCategoriesWithNewCategoryTask
 
         case 'update-task':
-            const categoryOfTaskToUpdated = state.listOfCategories.map(category => {
+            const newListCategories = state.listOfCategories.map(category => {
                 if (category.id === action.idCategory) {
-                    return category
+                    const newListOfTasksUpdated = category.listOfTasks.map(task => {
+                        if(task.id === action.payload.id){
+                            return action.payload
+                        }
+                        return task
+                    })
+                    const newStateOfTheCategory = {...category, listOfTasks: newListOfTasksUpdated}
+                    return newStateOfTheCategory
                 }
-            }).filter(category => category !== undefined)
-
-            const newListOfTasksUpdated = categoryOfTaskToUpdated[0].listOfTasks.map(task => {
-                if (task.id === action.payload.id) {
-                    return action.payload
-                }
-                return task
+                return category
             })
-            const categoryListOfTaskFiltered = categoryOfTaskToUpdated[0].listOfTasks.map(task => {
-                if (task.id !== newListOfTasksUpdated[0].id) {
-                    return task
-                }
-            }).filter(task => task !== undefined)
-
-            const newListUpdated = [...categoryListOfTaskFiltered, newListOfTasksUpdated[0]]
-            const newStateOfTheCategory = { ...categoryOfTaskToUpdated[0], listOfTasks: newListUpdated }
-            const categoryStateFiltered = state.listOfCategories.map(category => {
-                if (category.id !== newStateOfTheCategory.id) {
-                    return category
-                }
-            }).filter(task => task !== undefined)
-
-            const newListCategories = [...categoryStateFiltered, newStateOfTheCategory]
-            const newStateWithTaskUpdated = { ...state, listOfCategories: newListCategories.reverse() }
+            const newStateWithTaskUpdated = { ...state, listOfCategories: newListCategories }
             return newStateWithTaskUpdated
 
         case 'remove-task':
@@ -80,6 +58,7 @@ function reducer(state, action) {
                     return category
                 }
             }).filter(category => category !== undefined)
+    
             const newListOfTasksWithoutPayload = categoryOfTaskToDelete[0].listOfTasks.filter(task => task.id !== action.payload.id)
             const newListWithTaskDeleted = { ...categoryOfTaskToDelete, listOfTasks: newListOfTasksWithoutPayload }
             const newListCategoriesWithTaskDeleted = [...state.listOfCategories, newListWithTaskDeleted]

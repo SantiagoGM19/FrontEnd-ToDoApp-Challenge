@@ -44,7 +44,7 @@ const ListOfCategories = () => {
                     },
                     body: JSON.stringify(taskCreated)
                 })
-            
+
             let taskSaved = await taskSavedPromise.json()
 
             dispatch({
@@ -62,11 +62,12 @@ const ListOfCategories = () => {
         setTask(e.target.value)
     }
 
+    state.listOfCategories.map(category => console.log(category))
 
 
     return (
         <div>
-            {state.listOfCategories.map(category => {
+            {state.listOfCategories?.map(category => {
                 return <div className="card category-block" key={category}>
                     <div className="card-header category">
                         <div className='name-category'>

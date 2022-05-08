@@ -11,11 +11,11 @@ const Dashboard = () => {
 
     const [category, setCategory] = useState('')
 
-    useEffect(()=>{
+    useEffect(() => {
         let listOfCategories = fetchAllCategories().then(
             categories => {
                 let action = {
-                    type:"get-categories",
+                    type: "get-categories",
                     payload: categories
                 }
                 dispatch(action)
@@ -33,14 +33,14 @@ const Dashboard = () => {
         event.preventDefault()
         if (category) {
             const categoryCreated = {
-                'name':category
+                'name': category
             }
-            let categorySavedPromise = await fetch(`http://localhost:8081/api/create/category`,{
-                method:'POST',
-                headers:{
-                    'Content-type':'application/json'
+            let categorySavedPromise = await fetch(`http://localhost:8081/api/create/category`, {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json'
                 },
-                body:JSON.stringify(categoryCreated)
+                body: JSON.stringify(categoryCreated)
             })
             let categorySaved = await categorySavedPromise.json()
             dispatch({
@@ -59,12 +59,12 @@ const Dashboard = () => {
         <div className='dashboard'>
             <form ref={inputRef}>
                 <div className="form-floating mb-3 input-category" >
-                    <input onChange={addingCategory} type="text" className="form-control" id="floatingInput" placeholder='List of TO-DO'/>
+                    <input onChange={addingCategory} type="text" className="form-control" id="floatingInput" placeholder='List of TO-DO' />
                     <label for="floatingInput">List of TO-DO</label>
                     <button type="button" className="btn btn-success btn-category" onClick={onAddCategory}>New list</button>
                 </div>
             </form>
-            <ListOfCategories key={category}/>
+            <ListOfCategories key={category} />
         </div>
     )
 }
