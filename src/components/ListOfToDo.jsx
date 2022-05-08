@@ -19,9 +19,7 @@ const ListOfToDo = ({ task, categoryId }) => {
         if (response.status === 200) {
             dispatch({
                 type: 'remove-task',
-                payload: {
-                    task
-                },
+                payload: task,
                 idCategory: categoryId
             })
         }

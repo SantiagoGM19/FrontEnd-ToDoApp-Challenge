@@ -25,7 +25,7 @@ function reducer(state, action) {
             const newTask = action.payload.taskSaved
             const newListOfCategoriesWithNewTask = state.listOfCategories.map(category => {
                 if (category.id === action.payload.category.id) {
-                    const listOfTaskOfThisCategory = [...category.listOfTasks]
+                    const listOfTaskOfThisCategory = category.listOfTasks
                     const newListOfTasks = [...listOfTaskOfThisCategory, newTask]
                     const newStateOfCategory = {...category, listOfTasks: newListOfTasks}
                     return newStateOfCategory
@@ -53,15 +53,14 @@ function reducer(state, action) {
             return newStateWithTaskUpdated
 
         case 'remove-task':
-            const categoryOfTaskToDelete = state.listOfCategories.map(category => {
+            const newListCategoriesWithTaskDeleted = state.listOfCategories.map(category => {
                 if (category.id === action.idCategory) {
-                    return category
+                    const newListOfTasksWithoutPayload = category.listOfTasks.filter(task => task.id !== action.payload.id)
+                    const newStateOfTheCategoryWithTaskDeleted = {...category, listOfTasks: newListOfTasksWithoutPayload}
+                    return newStateOfTheCategoryWithTaskDeleted
                 }
-            }).filter(category => category !== undefined)
-    
-            const newListOfTasksWithoutPayload = categoryOfTaskToDelete[0].listOfTasks.filter(task => task.id !== action.payload.id)
-            const newListWithTaskDeleted = { ...categoryOfTaskToDelete, listOfTasks: newListOfTasksWithoutPayload }
-            const newListCategoriesWithTaskDeleted = [...state.listOfCategories, newListWithTaskDeleted]
+                return category
+            })
             const newStateWithTaskDeleted = {...state, listOfCategories: newListCategoriesWithTaskDeleted}
             return newStateWithTaskDeleted
     }
